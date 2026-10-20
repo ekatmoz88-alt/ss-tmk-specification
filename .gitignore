@@ -1,0 +1,15 @@
+# Временные файлы систем и логи
+*.log
+*.tmp
+*.env
+config.json
+
+# Файлы разработки MCP/Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Скрытые файлы операционных систем
+.DS_Store
+
