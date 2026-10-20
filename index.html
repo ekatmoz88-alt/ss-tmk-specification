@@ -1,4 +1,3 @@
-cat << 'EOF' > index.html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -17,171 +16,61 @@ cat << 'EOF' > index.html
             --warning-color: #d29922;
             --danger-color: #f85149;
         }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
-
         nav {
-            width: 100%;
-            background-color: var(--container-bg);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            width: 100%; background-color: var(--container-bg); border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 100;
         }
-
         .nav-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1000px; margin: 0 auto; padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
-        .logo {
-            font-weight: bold;
-            color: var(--accent-color);
-            font-size: 1.2rem;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 10px;
-        }
-
+        .logo { font-weight: bold; color: var(--accent-color); font-size: 1.2rem; }
+        .nav-menu { display: flex; gap: 10px; }
         .nav-btn {
-            background: none;
-            border: 1px solid transparent;
-            color: var(--text-color);
-            padding: 8px 16px;
-            cursor: pointer;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            transition: all 0.2s;
+            background: none; border: 1px solid transparent; color: var(--text-color);
+            padding: 8px 16px; cursor: pointer; border-radius: 6px; font-size: 0.95rem; transition: all 0.2s;
         }
-
         .nav-btn:hover, .nav-btn.active {
-            border-color: var(--border-color);
-            background-color: #21262d;
-            color: var(--accent-color);
+            border-color: var(--border-color); background-color: #21262d; color: var(--accent-color);
         }
-
-        main {
-            max-width: 1000px;
-            width: calc(100% - 40px);
-            margin: 30px auto;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .card {
-            background-color: var(--container-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 30px;
-        }
-
-        h1, h2, h3 {
-            color: var(--accent-color);
-            margin-top: 0;
-        }
-
+        main { max-width: 1000px; width: calc(100% - 40px); margin: 30px auto; display: flex; flex-direction: column; gap: 25px; }
+        .card { background-color: var(--container-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 30px; }
+        h1, h2, h3 { color: var(--accent-color); margin-top: 0; }
         p { line-height: 1.6; }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 0.95rem;
-        }
-
-        th, td {
-            border: 1px solid var(--border-color);
-            padding: 12px 15px;
-            text-align: left;
-        }
-
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95rem; }
+        th, td { border: 1px solid var(--border-color); padding: 12px 15px; text-align: left; }
         th { background-color: #1f242c; color: #f0f6fc; }
         tr:nth-child(even) { background-color: #191f28; }
-
         .status-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            background-color: rgba(56, 139, 253, 0.15);
-            color: var(--accent-color);
-            border: 1px solid rgba(56, 139, 253, 0.4);
+            display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;
+            background-color: rgba(56, 139, 253, 0.15); color: var(--accent-color); border: 1px solid rgba(56, 139, 253, 0.4);
         }
-
-        .form-group {
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
+        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px; }
         label { font-size: 0.9rem; font-weight: 600; }
-
         input, select, textarea {
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.95rem;
+            background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-color);
+            padding: 10px; border-radius: 6px; font-size: 0.95rem; width: 100%; box-sizing: border-box;
         }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
         .submit-btn {
-            background-color: var(--success-color);
-            color: white;
-            border: 1px solid rgba(240, 246, 252, 0.1);
-            padding: 10px 20px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s;
+            background-color: var(--success-color); color: white; border: 1px solid rgba(240, 246, 252, 0.1);
+            padding: 10px 20px; font-size: 0.95rem; font-weight: 600; border-radius: 6px; cursor: pointer;
         }
-
         .submit-btn:hover { background-color: #2ea043; }
-
         .response-box {
-            margin-top: 15px;
-            background-color: #05070a;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 15px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            overflow-x: auto;
-            color: #7ee787;
-            display: none;
+            margin-top: 15px; background-color: #05070a; border: 1px solid var(--border-color);
+            border-radius: 6px; padding: 15px; font-family: monospace; white-space: pre-wrap; color: #7ee787; display: none;
         }
-
         .log-row.info { color: #8b949e; }
         .log-row.warning { color: var(--warning-color); font-weight: 500; }
         .log-row.danger { color: var(--danger-color); font-weight: bold; }
-
+        
         .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        .tab-content.active { display: block !important; }
     </style>
 </head>
 <body>
@@ -190,44 +79,38 @@ cat << 'EOF' > index.html
         <div class="nav-container">
             <div class="logo">СС ТМК</div>
             <div class="nav-menu">
-                <button class="nav-btn active" onclick="switchTab('about')">О проекте</button>
-                <button class="nav-btn" onclick="switchTab('modules')">Подсистемы</button>
-                <button class="nav-btn" onclick="switchTab('api-test')">Тест API</button>
-                <button class="nav-btn" onclick="switchTab('logs')">Логи системы</button>
+                <button class="nav-btn active" onclick="switchTab('about', event)">О проекте</button>
+                <button class="nav-btn" onclick="switchTab('modules', event)">Подсистемы</button>
+                <button class="nav-btn" onclick="switchTab('api-test', event)">Тест API</button>
+                <button class="nav-btn" onclick="switchTab('logs', event)">Логи системы</button>
             </div>
         </div>
     </nav>
 
     <main>
+        <!-- Раздел: О проекте -->
         <div id="about" class="tab-content active card">
             <h1>Система технического мониторинга и контроля</h1>
             <p>Данный проект представляет собой объектное решение и программный интерфейс (API) для интеграции консоли оператора в единую инженерно-техническую систему обеспечения транспортной безопасности ОТИ.</p>
-            <p>Архитектура системы разработана в соответствии с базовыми требованиями Министерства транспорта РФ к интеграционным шлюзам мониторинга безопасности.</p>
         </div>
 
+        <!-- Раздел: Подсистемы -->
         <div id="modules" class="tab-content card">
             <h2>Архитектура подсистем и модулей</h2>
             <table>
                 <thead>
-                    <tr>
-                        <th style="width: 5%;">№</th>
-                        <th style="width: 35%;">Название подсистемы</th>
-                        <th style="width: 45%;">Функционал и назначение</th>
-                        <th style="width: 15%;">Статус</th>
-                    </tr>
+                    <tr><th>№</th><th>Название подсистемы</th><th>Функционал и назначение</th><th>Статус</th></tr>
                 </thead>
                 <tbody>
                     <tr><td>1</td><td><strong>Подсистема сбора данных</strong></td><td>Автоматический опрос и прием сигналов от ИТСОТБ.</td><td><span class="status-badge">Активна</span></td></tr>
                     <tr><td>2</td><td><strong>Подсистема обработки информации</strong></td><td>Фильтрация сигналов и сопоставление с моделями угроз.</td><td><span class="status-badge">В разработке</span></td></tr>
-                    <tr><td>3</td><td><strong>Подсистема взаимодействия с API</strong></td><td>Программный интерфейс шлюза мониторинга.</td><td><span class="status-badge">Тестирование</span></td></tr>
                 </tbody>
             </table>
         </div>
 
+        <!-- Раздел: Тест API -->
         <div id="api-test" class="tab-content card">
-            <h2>Интеграционный шлюз: Тестирование эмулятора `mcp_server.py`</h2>
-            <p>Используйте форму ниже для симуляции отправки управляющих и информационных пакетов данных через API.</p>
-            
+            <h2>Интеграционный шлюз: Тестирование `mcp_server.py`</h2>
             <form id="mockApiForm" onsubmit="handleApiSubmit(event)">
                 <div class="form-group">
                     <label for="apiMethod">Метод запроса</label>
@@ -240,61 +123,59 @@ cat << 'EOF' > index.html
                     <label for="apiEndpoint">Эндпоинт (Endpoint)</label>
                     <input type="text" id="apiEndpoint" value="/api/v1/monitoring/status" required>
                 </div>
-                <div class="form-group">
-                    <label for="apiPayload">Тело запроса (JSON)</label>
-                    <textarea id="apiPayload" rows="4">{\n  "device_id": "cam_042_perim",\n  "status": "online"\n}</textarea>
-                </div>
                 <button type="submit" class="submit-btn">Отправить тестовый запрос</button>
             </form>
-
             <div id="apiResponse" class="response-box"></div>
         </div>
 
+        <!-- Раздел: Логи -->
         <div id="logs" class="tab-content card">
-            <h2>Журнал системных логов (Режим реального времени)</h2>
-            <p>Последние зарегистрированные технологические сообщения и инциденты на объектах транспортной инфраструктуры.</p>
+            <h2>Журнал системных логов</h2>
             <table>
                 <thead>
-                    <tr>
-                        <th style="width: 20%;">Временная метка</th>
-                        <th style="width: 15%;">Уровень</th>
-                        <th style="width: 25%;">Источник (Устройство)</th>
-                        <th style="width: 40%;">Описание события</th>
-                    </tr>
+                    <tr><th>Временная метка</th><th>Уровень</th><th>Источник</th><th>Описание события</th></tr>
                 </thead>
-                <tbody id="logTableBody">
-                    <tr class="log-row danger"><td>20.10.2026 17:42:11</td><td>[CRITICAL]</td><td>Датчик_Периметр_Зона3</td><td>Пересечение линии охраняемого контура</td></tr>
-                    <tr class="log-row warning"><td>20.10.2026 17:40:05</td><td>[WARNING]</td><td>Камера_Вход_02</td><td>Потеря пакетов данных > 15% (Нестабильное соединение)</td></tr>
-Используйте код с осторожностью.
-20.10.2026 17:39:50[INFO]mcp_server.pyИнициализация API-интерфейса шлюза прошла успешно20.10.2026 17:35:14[INFO]СКУД_Турникет_ГлавныйПользователь оператор_01: авторизация успешнаfunction switchTab(tabId) {
-document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-document.getElementById(tabId).classList.add('active');
-const clickedBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
-if (clickedBtn) clickedBtn.classList.add('active');
-}
-function handleApiSubmit(event) {
-event.preventDefault();
-const method = document.getElementById('apiMethod').value;
-const endpoint = document.getElementById('apiEndpoint').value;
-const responseBox = document.getElementById('apiResponse');
-responseBox.style.display = "block";
-responseBox.innerText = "// Отправка запроса...";
-setTimeout(() => {
-const mockResponse = {
-"status": "success",
-"timestamp": new Date().toLocaleString('ru-RU'),
-"request_meta": { "method": method, "endpoint": endpoint },
-"data": {
-"server_agent": "mcp_server_v1.0",
-"connection": "established",
-"processed_records": method === "POST" ? 1 : 24
-}
-};
-responseBox.innerText = JSON.stringify(mockResponse, null, 2);
-}, 600);
-}
-document.getElementById('apiMethod').addEventListener('change', function() {
-const endpointInput = document.getElementById('apiEndpoint');
-endpointInput.value = this.value === "POST" ? "/api/v1/monitoring/event" : "/api/v1/monitoring/status";
-});
+                <tbody>
+                    <tr class="log-row danger"><td>20.10.2026 17:42:11</td><td>[CRITICAL]</td><td>Датчик_Периметр</td><td>Пересечение линии контура</td></tr>
+                    <tr class="log-row info"><td>20.10.2026 17:39:50</td><td>[INFO]</td><td>mcp_server.py</td><td>Интерфейс шлюза запущен</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        function switchTab(tabId, event) {
+            var tabs = document.querySelectorAll('.tab-content');
+            for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove('active'); }
+            
+            var buttons = document.querySelectorAll('.nav-btn');
+            for (var j = 0; j < buttons.length; j++) { buttons[j].classList.remove('active'); }
+            
+            document.getElementById(tabId).classList.add('active');
+            if(event) { event.currentTarget.classList.add('active'); }
+        }
+
+        function handleApiSubmit(event) {
+            event.preventDefault();
+            var method = document.getElementById('apiMethod').value;
+            var endpoint = document.getElementById('apiEndpoint').value;
+            var responseBox = document.getElementById('apiResponse');
+            responseBox.style.display = "block";
+            responseBox.innerText = "// Отправка запроса...";
+
+            setTimeout(function() {
+                var mockResponse = {
+                    "status": "success",
+                    "timestamp": new Date().toLocaleString('ru-RU'),
+                    "data": { "server_agent": "mcp_server_v1.0", "connection": "established" }
+                };
+                responseBox.innerText = JSON.stringify(mockResponse, null, 2);
+            }, 500);
+        }
+
+        document.getElementById('apiMethod').addEventListener('change', function() {
+            document.getElementById('apiEndpoint').value = this.value === "POST" ? "/api/v1/monitoring/event" : "/api/v1/monitoring/status";
+        });
+    </script>
+</body>
+</html>
