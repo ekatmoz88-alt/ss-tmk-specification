@@ -1,18 +1,230 @@
+html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>СС ТМК</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СС ТМК — Панель мониторинга</title>
     <style>
-        body { font-family: sans-serif; background: #0d1117; color: #c9d1d9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { text-align: center; border: 1px solid #30363d; padding: 40px; border-radius: 6px; background: #161b22; }
-        h1 { color: #58a6ff; }
+        :root {
+            --bg-color: #0d1117;
+            --container-bg: #161b22;
+            --border-color: #30363d;
+            --text-color: #c9d1d9;
+            --accent-color: #58a6ff;
+            --hover-color: #1f6feb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Навигационная панель */
+        nav {
+            width: 100%;
+            background-color: var(--container-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: none;
+            border: 1px solid transparent;
+            color: var(--text-color);
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            border-color: var(--border-color);
+            background-color: #21262d;
+            color: var(--accent-color);
+        }
+
+        /* Основной контент */
+        main {
+            max-width: 1000px;
+            width: calc(100% - 40px);
+            margin: 30px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background-color: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 30px;
+        }
+
+        h1, h2 {
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        /* Стилизация таблицы модулей */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1f242c;
+            color: #f0f6fc;
+        }
+
+        tr:nth-child(even) {
+            background-color: #191f28;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background-color: rgba(56, 139, 253, 0.15);
+            color: var(--accent-color);
+            border: 1px solid rgba(56, 139, 253, 0.4);
+        }
+
+        /* Классы для интерактивного переключения (табов) */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>СС ТМК</h1>
-        <p>Система технического мониторинга и контроля объектов транспортной инфраструктуры</p>
-    </div>
+
+    <!-- Меню навигации -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">СС ТМК</div>
+            <div class="nav-menu">
+                <button class="nav-btn active" onclick="switchTab('about')">О проекте</button>
+                <button class="nav-btn" onclick="switchTab('modules')">Подсистемы</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основные разделы -->
+    <main>
+        
+        <!-- Вкладка: О проекте -->
+        <div id="about" class="tab-content active card">
+            <h1>Система технического мониторинга и контроля</h1>
+            <p>Данный проект представляет собой объектное решение и программный интерфейс (API) для интеграции консоли оператора в единую инженерно-техническую систему обеспечения транспортной безопасности ОТИ.</p>
+            <p>Архитектура системы разработана в соответствии с базовыми требованиями Министерства транспорта РФ к интеграционным шлюзам мониторинга безопасности. Она обеспечивает сбор, предварительную обработку, структурирование и хранение данных, поступающих от разнородных датчиков нижнего уровня.</p>
+        </div>
+
+        <!-- Вкладка: Таблица подсистем -->
+        <div id="modules" class="tab-content card">
+            <h2>Архитектура подсистем и модулей</h2>
+            <p>В состав Системы мониторинга функционально включаются следующие ключевые компоненты:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">№</th>
+                        <th style="width: 35%;">Название подсистемы</th>
+                        <th style="width: 45%;">Функционал и назначение</th>
+                        <th style="width: 15%;">Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>Подсистема сбора данных</strong></td>
+                        <td>Автоматический опрос и прием сигналов от инженерно-технических средств ОТБ (видеонаблюдение, охранная сигнализация, СКУД, датчики периметра).</td>
+                        <td><span class="status-badge">Активна</span></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>Подсистема обработки информации</strong></td>
+                        <td>Фильтрация входящих сигналов нижнего уровня и их сопоставление с заложенными математическими моделями угроз.</td>
+                        <td><span class="status-badge">В разработке</span></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>Подсистема взаимодействия с API</strong></td>
+                        <td>Расширенный программный интерфейс взаимодействия с внешними системами для передачи структурированных отчетов оператору.</td>
+                        <td><span class="status-badge">Тестирование</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <!-- Скрипт для интерактивного переключения -->
+    <script>
+        function switchTab(tabId) {
+            // Скрываем все вкладки
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Деактивируем все кнопки меню
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Показываем выбранную вкладку
+            document.getElementById(tabId).classList.add('active');
+            
+            // Подсвечиваем нажатую кнопку
+            const clickedBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
+            if (clickedBtn) clickedBtn.classList.add('active');
+        }
+    </script>
+
 </body>
 </html>
