@@ -1,7 +1,9 @@
 import sys
 import json
 import datetime
+import xml.etree.ElementTree as ET
 
+# База данных зарегистрированных датчиков (координат) ОТИ
 KNOWN_COORDS = {
     "т1": "Камера ситуационной видеоаналитики — Периметр Юг",
     "т2": "Датчик СКУД — Вход в терминал А",
@@ -34,7 +36,7 @@ def main():
                 send_response(req_id, {
                     "protocolVersion": "2024-11-05",
                     "capabilities": {"tools": {}},
-                    "serverInfo": {"name": "SS-TMK-Sensor-Gateway", "version": "1.0.0"}
+                    "serverInfo": {"name": "SS-TMK-Sensor-Gateway", "version": "1.1.0"}
                 })
             elif method == "tools/list":
                 send_response(req_id, {
@@ -53,6 +55,17 @@ def main():
                                     "sensor_id": {"type": "string", "description": "Идентификатор датчика (например: т1, т2)"}
                                 },
                                 "required": ["sensor_id"]
+                            }
+                        },
+                        {
+                            "name": "ParseDesignXML",
+                            "description": "Прочитать метаданные XML-схемы дизайна базы данных Oracle SQL Developer для связывания датчиков с таблицами СУБД.",
+                            "inputSchema": {
+                                "type": "object",
+                                "properties": {
+                                    "xml_content": {"type": "string", "description": "Полный XML-текст конфигурации OSDM_Design"}
+                                },
+                                "required": ["xml_content"]
                             }
                         }
                     ]
@@ -84,10 +97,27 @@ def main():
                         f"Результат: Сигнал передан в подсистему предварительной обработки для проверки моделей угроз."
                     )
                     send_response(req_id, {"content": [{"type": "text", "text": text}]})
+
+                elif tool_name == "ParseDesignXML":
+                    xml_data = tool_args.get("xml_content", "")
+                    try:
+                        root = ET.fromstring(xml_data)
+                        design_name = root.attrib.get("name", "Unknown")
+                        design_id = root.attrib.get("id", "Unknown")
+                        created_by = root.find("createdBy").text if root.find("createdBy") is not None else "Unknown"
+                        
+                        text = (
+                            f"🎨 [OSDM XML Parser Success]\n"
+                            f"Имя дизайна БД: {design_name}\n"
+                            f"Идентификатор (ID): {design_id}\n"
+                            f"Автор схемы: {created_by}\n"
+                            f"Статус: Метаданные СУБД успешно импортированы шлюзом СС ТМК."
+                        )
+                        send_response(req_id, {"content": [{"type": "text", "text": text}]})
+                    except Exception as xml_err:
+                        send_response(req_id, {"content": [{"type": "text", "text": f"Ошибка парсинга XML: {xml_err}"}]})
                 else:
                     send_error(req_id, -32601, f"Инструмент {tool_name} не найден")
-            elif req_id is not None:
-                send_error(req_id, -32601, "Метод не поддерживается")
         except Exception as e:
             sys.stderr.write(f"Error parsing line: {e}\n")
             sys.stderr.flush()
