@@ -143,39 +143,59 @@
         </div>
     </main>
 
-    <script>
-        function switchTab(tabId, event) {
-            var tabs = document.querySelectorAll('.tab-content');
-            for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove('active'); }
-            
-            var buttons = document.querySelectorAll('.nav-btn');
-            for (var j = 0; j < buttons.length; j++) { buttons[j].classList.remove('active'); }
-            
-            document.getElementById(tabId).classList.add('active');
-            if(event) { event.currentTarget.classList.add('active'); }
+   <script>
+    function switchTab(tabId, event) {
+        var tabs = document.querySelectorAll('.tab-content');
+        for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove('active'); }
+        
+        var buttons = document.querySelectorAll('.nav-btn');
+        for (var j = 0; j < buttons.length; j++) { buttons[j].classList.remove('active'); }
+        
+        document.getElementById(tabId).classList.add('active');
+        if(event) { event.currentTarget.classList.add('active'); }
+    }
+
+    function handleApiSubmit(event) {
+        event.preventDefault();
+        var method = document.getElementById('apiMethod').value;
+        var endpoint = document.getElementById('apiEndpoint').value;
+        var responseBox = document.getElementById('apiResponse');
+
+        responseBox.style.display = "block";
+        responseBox.style.color = "#7ee787";
+        responseBox.innerText = "// Отправка реального запроса на http://localhost:8000...";
+
+        var url = 'http://localhost:8000' + endpoint;
+        var options = {
+            method: method,
+            headers: { 'Content-Type': 'application/json' }
+        };
+
+        if (method === 'POST') {
+            options.body = JSON.stringify({
+                "device_id": "cam_042_perim",
+                "status": "offline"
+            });
         }
 
-        function handleApiSubmit(event) {
-            event.preventDefault();
-            var method = document.getElementById('apiMethod').value;
-            var endpoint = document.getElementById('apiEndpoint').value;
-            var responseBox = document.getElementById('apiResponse');
-            responseBox.style.display = "block";
-            responseBox.innerText = "// Отправка запроса...";
+        fetch(url, options)
+            .then(function(response) {
+                if (!response.ok) { throw new Error('Ошибка сервера: ' + response.status); }
+                return response.json();
+            })
+            .then(function(data) {
+                responseBox.innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(function(error) {
+                responseBox.style.color = "#f85149";
+                responseBox.innerText = "// Ошибка подключения к бэкенду!\n" + 
+                                        "// Убедитесь, что python3 mcp_server.py запущен.\n\n" + error.message;
+            });
+    }
 
-            setTimeout(function() {
-                var mockResponse = {
-                    "status": "success",
-                    "timestamp": new Date().toLocaleString('ru-RU'),
-                    "data": { "server_agent": "mcp_server_v1.0", "connection": "established" }
-                };
-                responseBox.innerText = JSON.stringify(mockResponse, null, 2);
-            }, 500);
-        }
-
-        document.getElementById('apiMethod').addEventListener('change', function() {
-            document.getElementById('apiEndpoint').value = this.value === "POST" ? "/api/v1/monitoring/event" : "/api/v1/monitoring/status";
-        });
-    </script>
+    document.getElementById('apiMethod').addEventListener('change', function() {
+        document.getElementById('apiEndpoint').value = this.value === "POST" ? "/api/v1/monitoring/event" : "/api/v1/monitoring/status";
+    });
+</script>
 </body>
 </html>
