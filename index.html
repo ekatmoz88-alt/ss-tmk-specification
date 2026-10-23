@@ -1,201 +1,51 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>СС ТМК — Панель мониторинга</title>
-    <style>
-        :root {
-            --bg-color: #0d1117;
-            --container-bg: #161b22;
-            --border-color: #30363d;
-            --text-color: #c9d1d9;
-            --accent-color: #58a6ff;
-            --hover-color: #1f6feb;
-            --success-color: #238636;
-            --warning-color: #d29922;
-            --danger-color: #f85149;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0;
-            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
-        }
-        nav {
-            width: 100%; background-color: var(--container-bg); border-bottom: 1px solid var(--border-color);
-            position: sticky; top: 0; z-index: 100;
-        }
-        .nav-container {
-            max-width: 1000px; margin: 0 auto; padding: 15px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo { font-weight: bold; color: var(--accent-color); font-size: 1.2rem; }
-        .nav-menu { display: flex; gap: 10px; }
-        .nav-btn {
-            background: none; border: 1px solid transparent; color: var(--text-color);
-            padding: 8px 16px; cursor: pointer; border-radius: 6px; font-size: 0.95rem; transition: all 0.2s;
-        }
-        .nav-btn:hover, .nav-btn.active {
-            border-color: var(--border-color); background-color: #21262d; color: var(--accent-color);
-        }
-        main { max-width: 1000px; width: calc(100% - 40px); margin: 30px auto; display: flex; flex-direction: column; gap: 25px; }
-        .card { background-color: var(--container-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 30px; }
-        h1, h2, h3 { color: var(--accent-color); margin-top: 0; }
-        p { line-height: 1.6; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95rem; }
-        th, td { border: 1px solid var(--border-color); padding: 12px 15px; text-align: left; }
-        th { background-color: #1f242c; color: #f0f6fc; }
-        tr:nth-child(even) { background-color: #191f28; }
-        .status-badge {
-            display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;
-            background-color: rgba(56, 139, 253, 0.15); color: var(--accent-color); border: 1px solid rgba(56, 139, 253, 0.4);
-        }
-        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px; }
-        label { font-size: 0.9rem; font-weight: 600; }
-        input, select, textarea {
-            background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-color);
-            padding: 10px; border-radius: 6px; font-size: 0.95rem; width: 100%; box-sizing: border-box;
-        }
-        .submit-btn {
-            background-color: var(--success-color); color: white; border: 1px solid rgba(240, 246, 252, 0.1);
-            padding: 10px 20px; font-size: 0.95rem; font-weight: 600; border-radius: 6px; cursor: pointer;
-        }
-        .submit-btn:hover { background-color: #2ea043; }
-        .response-box {
-            margin-top: 15px; background-color: #05070a; border: 1px solid var(--border-color);
-            border-radius: 6px; padding: 15px; font-family: monospace; white-space: pre-wrap; color: #7ee787; display: none;
-        }
-        .log-row.info { color: #8b949e; }
-        .log-row.warning { color: var(--warning-color); font-weight: 500; }
-        .log-row.danger { color: var(--danger-color); font-weight: bold; }
-        
-        .tab-content { display: none; }
-        .tab-content.active { display: block !important; }
-    </style>
-</head>
-<body>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // База данных датчиков из вашего mcp_server.py
+    const knownCoords = {
+        "т1": "Камера ситуационной видеоаналитики — Периметр Юг",
+        "т2": "Датчик СКУД — Вход в терминал А",
+        "т3": "Извещатель охранный — Зона транспортной безопасности",
+        "т4": "Камера распознавания номеров — КПП-1",
+        "т5": "Сенсор целостности ограждения — Сектор 5"
+    };
 
-    <nav>
-        <div class="nav-container">
-            <div class="logo">СС ТМК</div>
-            <div class="nav-menu">
-                <button class="nav-btn active" onclick="switchTab('about', event)">О проекте</button>
-                <button class="nav-btn" onclick="switchTab('modules', event)">Подсистемы</button>
-                <button class="nav-btn" onclick="switchTab('api-test', event)">Тест API</button>
-                <button class="nav-btn" onclick="switchTab('logs', event)">Логи системы</button>
-            </div>
-        </div>
-    </nav>
+    const testBtn = document.querySelector('button, input[type="button"]'); // Находим вашу кнопку
+    const logTableBody = document.querySelector('table:last-of-type tbody'); // Находим таблицу логов
 
-    <main>
-        <!-- Раздел: О проекте -->
-        <div id="about" class="tab-content active card">
-            <h1>Система технического мониторинга и контроля</h1>
-            <p>Данный проект представляет собой объектное решение и программный интерфейс (API) для интеграции консоли оператора в единую инженерно-техническую систему обеспечения транспортной безопасности ОТИ.</p>
-        </div>
-
-        <!-- Раздел: Подсистемы -->
-        <div id="modules" class="tab-content card">
-            <h2>Архитектура подсистем и модулей</h2>
-            <table>
-                <thead>
-                    <tr><th>№</th><th>Название подсистемы</th><th>Функционал и назначение</th><th>Статус</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>1</td><td><strong>Подсистема сбора данных</strong></td><td>Автоматический опрос и прием сигналов от ИТСОТБ.</td><td><span class="status-badge">Активна</span></td></tr>
-                    <tr><td>2</td><td><strong>Подсистема обработки информации</strong></td><td>Фильтрация сигналов и сопоставление с моделями угроз.</td><td><span class="status-badge">В разработке</span></td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Раздел: Тест API -->
-        <div id="api-test" class="tab-content card">
-            <h2>Интеграционный шлюз: Тестирование `mcp_server.py`</h2>
-            <form id="mockApiForm" onsubmit="handleApiSubmit(event)">
-                <div class="form-group">
-                    <label for="apiMethod">Метод запроса</label>
-                    <select id="apiMethod">
-                        <option value="GET">GET (Получить статус устройств)</option>
-                        <option value="POST">POST (Передать событие/тревогу)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="apiEndpoint">Эндпоинт (Endpoint)</label>
-                    <input type="text" id="apiEndpoint" value="/api/v1/monitoring/status" required>
-                </div>
-                <button type="submit" class="submit-btn">Отправить тестовый запрос</button>
-            </form>
-            <div id="apiResponse" class="response-box"></div>
-        </div>
-
-        <!-- Раздел: Логи -->
-        <div id="logs" class="tab-content card">
-            <h2>Журнал системных логов</h2>
-            <table>
-                <thead>
-                    <tr><th>Временная метка</th><th>Уровень</th><th>Источник</th><th>Описание события</th></tr>
-                </thead>
-                <tbody>
-                    <tr class="log-row danger"><td>20.10.2026 17:42:11</td><td>[CRITICAL]</td><td>Датчик_Периметр</td><td>Пересечение линии контура</td></tr>
-                    <tr class="log-row info"><td>20.10.2026 17:39:50</td><td>[INFO]</td><td>mcp_server.py</td><td>Интерфейс шлюза запущен</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
-
-   <script>
-    function switchTab(tabId, event) {
-        var tabs = document.querySelectorAll('.tab-content');
-        for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove('active'); }
-        
-        var buttons = document.querySelectorAll('.nav-btn');
-        for (var j = 0; j < buttons.length; j++) { buttons[j].classList.remove('active'); }
-        
-        document.getElementById(tabId).classList.add('active');
-        if(event) { event.currentTarget.classList.add('active'); }
+    if (testBtn && logTableBody) {
+        testBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Выбираем случайный датчик
+            const keys = Object.keys(knownCoords);
+            const randomKey = keys[Math.floor(Math.random() * keys.length)];
+            const sensorDesc = knownCoords[randomKey];
+            
+            // Получаем текущее время
+            const now = new Date();
+            const timeStr = now.toLocaleDateString('ru-RU') + ' ' + now.toLocaleTimeString('ru-RU');
+            
+            // Создаем новую строку лога, имитирующую AddEvent из MCP
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${timeStr}</td>
+                <td><span style="color: #ff3b30; font-weight: bold;">[CRITICAL]</span></td>
+                <td>mcp_server.py</td>
+                <td><strong>AddEvent:</strong> Сработал датчик ${randomKey} (${sensorDesc}). Сигнал передан в обработку моделей угроз.</td>
+            `;
+            
+            // Добавляем запись в самое начало журнала логов
+            logTableBody.insertBefore(newRow, logTableBody.firstChild);
+            
+            // Небольшая визуальная индикация успеха
+            const originalText = testBtn.innerText || testBtn.value;
+            testBtn.innerText = "✓ Запрос отправлен";
+            testBtn.style.backgroundColor = "#34c759";
+            setTimeout(() => {
+                testBtn.innerText = originalText;
+                testBtn.style.backgroundColor = "";
+            }, 1500);
+        });
     }
-
-    function handleApiSubmit(event) {
-        event.preventDefault();
-        var method = document.getElementById('apiMethod').value;
-        var endpoint = document.getElementById('apiEndpoint').value;
-        var responseBox = document.getElementById('apiResponse');
-
-        responseBox.style.display = "block";
-        responseBox.style.color = "#7ee787";
-        responseBox.innerText = "// Отправка реального запроса на http://localhost:8000...";
-
-        var url = 'http://localhost:8000' + endpoint;
-        var options = {
-            method: method,
-            headers: { 'Content-Type': 'application/json' }
-        };
-
-        if (method === 'POST') {
-            options.body = JSON.stringify({
-                "device_id": "cam_042_perim",
-                "status": "offline"
-            });
-        }
-
-        fetch(url, options)
-            .then(function(response) {
-                if (!response.ok) { throw new Error('Ошибка сервера: ' + response.status); }
-                return response.json();
-            })
-            .then(function(data) {
-                responseBox.innerText = JSON.stringify(data, null, 2);
-            })
-            .catch(function(error) {
-                responseBox.style.color = "#f85149";
-                responseBox.innerText = "// Ошибка подключения к бэкенду!\n" + 
-                                        "// Убедитесь, что python3 mcp_server.py запущен.\n\n" + error.message;
-            });
-    }
-
-    document.getElementById('apiMethod').addEventListener('change', function() {
-        document.getElementById('apiEndpoint').value = this.value === "POST" ? "/api/v1/monitoring/event" : "/api/v1/monitoring/status";
-    });
+});
 </script>
-</body>
-</html>
