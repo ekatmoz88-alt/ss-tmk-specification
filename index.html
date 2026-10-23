@@ -150,7 +150,8 @@
                 <td>${timeStr}</td>
                 <td><span style="color:var(--danger-color)">[CRITICAL]</span></td>
                 <td>mcp_server.py</td>
-                <td><strong>AddEvent:</strong> Сработал датчик ${randomKey} (${knownCoords[randomKey]})</td> `;
+                <td><strong>AddEvent:</strong> Сработал датчик ${randomKey} (${knownCoords[randomKey]})</td>
+            `;
             document.getElementById('log-body').insertBefore(row, document.getElementById('log-body').firstChild);
             
             this.innerText = "✓ Запрос отправлен";
