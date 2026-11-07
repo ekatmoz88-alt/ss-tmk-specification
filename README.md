@@ -45,3 +45,8 @@
 ## 🗂️ Документация проекта
 
 * 📊 **[SS-TMK Sensor Gateway Spec](./sc_tmk_gateway.md)** — Документация программного шлюза мониторинга «СС ТМК» на протоколе MCP, включая парсинг метаданных баз данных Oracle OSDM.
+
+
+## Tags
+
+`ss-tmk` · `transport-security` · `integration-gateway` · `soap` · `wsdl` · `xml` · `mcp-adapter`
