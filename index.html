@@ -259,18 +259,25 @@
                 animation-iteration-count: 1 !important;
             }
         }
+    
+/* Shared documentation shell; tab behavior remains unchanged */
+.nav-container{height:48px;min-height:48px;position:sticky;top:0;justify-content:flex-start;padding:0 24px}
+.sidebar{position:fixed;z-index:10;top:48px;bottom:0;left:0;width:240px;overflow:auto;padding:24px 16px 32px 20px;background:#f5f7f8;border-right:1px solid #e0e0e0}
+.side-label{margin:0 0 10px;color:#607d8b;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.sidebar .nav-menu{display:grid;gap:3px}
+.sidebar .nav-menu button{width:100%;min-height:32px;padding:6px 9px;text-align:left;border:0;border-radius:2px;color:#455a64;background:transparent;font-size:12px}
+.sidebar .nav-menu button:hover{background:#e8eef0;color:#263238}
+.sidebar .nav-menu button.active{border:1px solid #cfd8dc;background:#e0f2f1;color:#263238}
+main{width:calc(100% - 240px);max-width:1120px;margin:0 0 0 240px;padding:32px 40px 64px}
+@media(max-width:760px){.nav-container{padding:0 18px}.sidebar{position:static;width:auto;padding:10px 18px;border-right:0;border-bottom:1px solid #e0e0e0}.side-label{margin-bottom:6px}.sidebar .nav-menu{display:flex;flex-wrap:wrap;gap:4px}.sidebar .nav-menu button{width:auto;flex:0 0 auto}main{width:100%;margin:0;padding:24px 18px 42px}}
+
     </style>
 </head>
 <body>
 
     <nav class="nav-container">
         <div class="logo">🛰️ СС ТМК</div>
-        <div class="nav-menu">
-            <button class="nav-btn active" onclick="switchTab('about')">О проекте</button>
-            <button class="nav-btn" onclick="switchTab('modules')">Подсистемы</button>
-            <button class="nav-btn" onclick="switchTab('api')">Тест API</button>
-            <button class="nav-btn" onclick="switchTab('logs')">Логи системы</button>
-        </div>
+
     </nav>
 
     <main>
