@@ -275,11 +275,16 @@ main{width:calc(100% - 240px);max-width:1120px;margin:0 0 0 240px;padding:32px 4
 </head>
 <body>
 
-    <nav class="nav-container">
+    <header class="nav-container">
         <div class="logo">🛰️ СС ТМК</div>
 
-    </nav>
-
+    </header>
+    <aside class="sidebar"><p class="side-label">Разделы панели</p><div class="nav-menu">
+      <button class="nav-btn active" onclick="switchTab('about')">О проекте</button>
+      <button class="nav-btn" onclick="switchTab('modules')">Подсистемы</button>
+      <button class="nav-btn" onclick="switchTab('api')">Тест API</button>
+      <button class="nav-btn" onclick="switchTab('logs')">Логи системы</button>
+    </div></aside>
     <main>
         <!-- О проекте -->
         <div id="about" class="tab-content active card">
